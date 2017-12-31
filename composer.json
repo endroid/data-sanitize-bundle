@@ -1,0 +1,37 @@
+{
+    "name": "endroid/data-sanitize-bundle",
+    "description": "Endroid Data Sanitize Bundle",
+    "keywords": ["endroid", "data", "sanitize", "symfony", "bundle", "php"],
+    "homepage": "https://github.com/endroid/data-sanitize-bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jeroen van den Enden",
+            "email": "info@endroid.nl",
+            "homepage": "https://endroid.nl/"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "endroid/data-sanitize": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7|^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Endroid\\DataSanitizeBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Endroid\\DataSanitizeBundle\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
+}
