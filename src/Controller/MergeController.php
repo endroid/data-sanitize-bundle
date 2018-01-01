@@ -7,7 +7,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\DataSanitize\Bundle\DataSanitizeBundle\Controller;
+namespace Endroid\DataSanitizeBundle\Controller;
 
 use Endroid\DataSanitize\Sanitizer\Sanitizer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

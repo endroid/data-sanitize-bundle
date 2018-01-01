@@ -7,7 +7,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\DataSanitize\Bundle\DataSanitizeBundle\DependencyInjection;
+namespace Endroid\DataSanitizeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
