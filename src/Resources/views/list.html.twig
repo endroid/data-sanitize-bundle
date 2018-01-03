@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block menu %}
-    {{ render(controller('EndroidDataSanitizeBundle:Merge:menu')) }}
+    {{ render(controller('Endroid\\DataSanitizeBundle\\Controller\\MenuController')) }}
 {% endblock %}
 
 {% block content %}
-    <h1>Merge {{ name }} entities</h1>
-    {% if name %}
+    <h1>Merge {{ entityName }} entities</h1>
+    {% if entityName %}
         <div id="application"></div>
     {% else %}
         Choose the entity you want to merge from the menu.
@@ -22,8 +22,8 @@
     {{ parent() }}
     <script>
         let appConfig = {
-            loadPath: "{{ path('endroid_data_sanitize_merge_state', { name: name }) }}",
-            mergePath: "{{ path('endroid_data_sanitize_merge_merge', { name: name }) }}",
+            loadPath: "{{ path('endroid_data_sanitize_state', { entityName: entityName }) }}",
+            mergePath: "{{ path('endroid_data_sanitize_merge', { entityName: entityName }) }}",
         }
     </script>
     <script src="{{ preload(asset('/build/merge.js', 'endroid_data_sanitize')) }}"></script>

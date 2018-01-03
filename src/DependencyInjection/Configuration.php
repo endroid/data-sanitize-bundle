@@ -14,10 +14,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
 
@@ -29,12 +26,7 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('class')->isRequired()->end()
                                 ->arrayNode('fields')
-                                    ->prototype('scalar')->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
+                                    ->prototype('scalar')
         ;
 
         return $treeBuilder;
