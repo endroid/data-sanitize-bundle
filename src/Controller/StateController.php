@@ -27,7 +27,7 @@ final class StateController
     }
 
     /**
-     * @Route("/{entityName}/state", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="endroid_data_sanitize_state")
+     * @Route("/{entityName}/state", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="data_sanitize_state")
      */
     public function stateAction(string $entityName): Response
     {

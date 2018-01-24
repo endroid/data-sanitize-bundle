@@ -38,7 +38,7 @@ final class MenuController
         foreach ($config as $entityName => $entityConfig) {
             $menu[] = [
                 'label' => ucfirst(str_replace('_', ' ', $entityName)),
-                'url' => $this->router->generateUrl('endroid_data_sanitize_list', ['entityName' => $entityName]),
+                'url' => $this->router->generateUrl('data_sanitize_list', ['entityName' => $entityName]),
             ];
         }
 

@@ -23,7 +23,7 @@ final class ListController
     }
 
     /**
-     * @Route("/{entityName}", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="endroid_data_sanitize_list")
+     * @Route("/{entityName}", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="data_sanitize_list")
      */
     public function __invoke(string $entityName): Response
     {

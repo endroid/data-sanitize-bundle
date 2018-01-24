@@ -25,7 +25,7 @@ final class MergeController
     }
 
     /**
-     * @Route("/{entityName}/merge", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="endroid_data_sanitize_merge")
+     * @Route("/{entityName}/merge", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="data_sanitize_merge")
      */
     public function __invoke(Request $request, string $entityName): Response
     {
