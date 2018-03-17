@@ -1,0 +1,23 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.19.0",
+    "axios": "^0.17.1",
+    "bootstrap": "^4.0.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.12.5",
+    "vue": "^2.5.13",
+    "vue-loader": "^14.1.1",
+    "vue-template-compiler": "^2.5.13",
+    "bootstrap-vue": "^2.0.0-rc.2"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/encore production",
+    "watch": "node_modules/.bin/encore production --watch"
+  },
+  "author": "Jeroen van den Enden",
+  "license": "MIT"
+}

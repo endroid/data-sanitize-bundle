@@ -45,8 +45,6 @@ final class StateController
         $state = [
             'entities' => $entities,
             'fields' => $fields,
-            'sources' => [],
-            'target' => null,
         ];
 
         return new JsonResponse($state);
