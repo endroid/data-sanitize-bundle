@@ -30,8 +30,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="entity in entities">
-                                <td v-for="field in fields" v-on:click="toggle(field)">{{ entity[field] }}</td>
+                            <tr :class="getStyleForStatus(entity)" v-for="entity in entities">
+                                <td v-for="field in fields" v-on:click="toggle(entity)">{{ entity[field] }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -54,13 +54,29 @@
                 showDangerAlert: false,
                 dangerMessage: '',
                 entities: [],
-                filteredEntities: [],
                 fields: [],
-                target: null,
-                sources: []
             }
         },
         methods: {
+            getStyleForStatus: function (entity) {
+                if (!('status' in entity)) {
+                    return '';
+                } else if (entity['status'] === 'source') {
+                    return 'table-warning';
+                } else if (entity['status'] === 'target') {
+                    return 'table-success';
+                }
+                return '';
+            },
+            toggle: function(entity) {
+                if (!('status' in entity)) {
+                    entity['status'] = 'source';
+                } else if (entity['status'] === 'source') {
+                    entity['status'] = 'target';
+                } else if (entity['status'] === 'target') {
+                    entity.splice('status', 1);
+                }
+            },
             loadState: function () {
                 axios.get('/data-sanitize/project/state').then((response) => {
                     this.entities = response.data.entities;
