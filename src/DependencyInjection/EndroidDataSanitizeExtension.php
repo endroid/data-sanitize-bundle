@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
-class EndroidDataSanitizeExtension extends Extension implements PrependExtensionInterface
+final class EndroidDataSanitizeExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}

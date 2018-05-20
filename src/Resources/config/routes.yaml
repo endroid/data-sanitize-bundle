@@ -1,0 +1,15 @@
+data_sanitize_list:
+    path: /{entityName}
+    controller: Endroid\DataSanitizeBundle\Controller\ListController
+
+data_sanitize_merge:
+    path: /{entityName}/merge
+    controller: Endroid\DataSanitizeBundle\Controller\MergeController
+
+data_sanitize_state:
+    path: /{entityName}/state
+    controller: Endroid\DataSanitizeBundle\Controller\StateController
+
+data_sanitize_menu:
+    path: /menu
+    controller: Endroid\DataSanitizeBundle\Controller\MenuController

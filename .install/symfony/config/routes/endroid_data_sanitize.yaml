@@ -1,0 +1,3 @@
+endroid_data_sanitize:
+    resource: "@EndroidDataSanitizeBundle/Resources/config/routes.yaml"
+    prefix: /data-sanitize

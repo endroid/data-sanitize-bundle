@@ -11,7 +11,6 @@ namespace Endroid\DataSanitizeBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\DataSanitize\Sanitizer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,10 +25,7 @@ final class StateController
         $this->sanitizer = $sanitizer;
     }
 
-    /**
-     * @Route("/{entityName}/state", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="data_sanitize_state")
-     */
-    public function stateAction(string $entityName): Response
+    public function __invoke(string $entityName): Response
     {
         $entities = $this->entityManager->getRepository($this->sanitizer->getClass($entityName))->findBy([], ['id' => 'ASC']);
         $fields = $this->sanitizer->getFields($entityName);

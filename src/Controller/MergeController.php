@@ -10,7 +10,6 @@
 namespace Endroid\DataSanitizeBundle\Controller;
 
 use Endroid\DataSanitize\Sanitizer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +23,6 @@ final class MergeController
         $this->sanitizer = $sanitizer;
     }
 
-    /**
-     * @Route("/{entityName}/merge", defaults={"entityName": null}, requirements={"entityName": "[^/]*"}, name="data_sanitize_merge")
-     */
     public function __invoke(Request $request, string $entityName): Response
     {
         $sources = $request->request->get('sources');
