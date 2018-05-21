@@ -19,7 +19,7 @@
                         <form class="form-inline">
                             <div class="form-group">
                                 <input class="form-control" type="text" v-on:keyup="filter" v-model="filter" placeholder="Type here to filter" />
-                                <button type="button" class="btn btn-success" v-on:click="loadState">Merge</button>
+                                <button type="button" class="btn btn-success" v-on:click="merge">Merge</button>
                             </div>
                         </form>
                     </div>
@@ -30,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr :class="getStyleForStatus(entity)" v-for="entity in entities">
+                            <tr v-for="entity in entities" v-bind:class="{'table-warning':(status === 'source')}">
                                 <td v-for="field in fields" v-on:click="toggle(entity)">{{ entity[field] }}</td>
                             </tr>
                         </tbody>
@@ -54,37 +54,34 @@
                 showDangerAlert: false,
                 dangerMessage: '',
                 entities: [],
-                fields: [],
+                fields: []
             }
         },
+        props: {
+            stateUrl: { required: true },
+            mergeUrl: { required: true }
+        },
         methods: {
-            getStyleForStatus: function (entity) {
-                if (!('status' in entity)) {
-                    return '';
-                } else if (entity['status'] === 'source') {
-                    return 'table-warning';
-                } else if (entity['status'] === 'target') {
-                    return 'table-success';
-                }
-                return '';
-            },
-            toggle: function(entity) {
-                if (!('status' in entity)) {
-                    entity['status'] = 'source';
-                } else if (entity['status'] === 'source') {
-                    entity['status'] = 'target';
-                } else if (entity['status'] === 'target') {
-                    entity.splice('status', 1);
-                }
-            },
             loadState: function () {
-                axios.get('/data-sanitize/project/state').then((response) => {
+                axios.get(this.stateUrl).then((response) => {
                     this.entities = response.data.entities;
                     this.fields = response.data.fields;
                 }, (error) => {
                     this.dangerMessage = 'Entities could not be loaded';
                     this.showDangerAlert = true;
                 })
+            },
+            toggle: function(entity) {
+                if (!('status' in entity || entity['status'] === 'none')) {
+                    entity['status'] = 'source';
+                } else if (entity['status'] === 'source') {
+                    entity['status'] = 'target';
+                } else if (entity['status'] === 'target') {
+                    entity['status'] = 'none';
+                }
+            },
+            merge: function() {
+                console.log(this.entities);
             },
             // sendTest: function () {
             //     axios.get('/cm-sms/message/send/' + this.phoneNumber).then((response) => {

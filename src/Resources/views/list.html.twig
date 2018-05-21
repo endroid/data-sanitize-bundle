@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ preload(asset('/build/merger.css', 'endroid_data_sanitize')) }}">
+    <link rel="stylesheet" href="{{ preload(asset('/build/app.css', 'endroid_data_sanitize')) }}">
 {% endblock %}
 
 {% block menu %}
@@ -12,7 +12,12 @@
 {% block content %}
     <h1>Merge {{ entityName }} entities</h1>
     {% if entityName %}
-        <div id="merger"></div>
+        <div id="app">
+            <merger
+                    state-url="{{ path('data_sanitize_state', { entityName: entityName }) }}"
+                    merge-url="{{ path('data_sanitize_merge', { entityName: entityName }) }}"
+            ></merger>
+        </div>
     {% else %}
         Choose the entity you want to merge from the menu.
     {% endif %}
@@ -20,5 +25,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ preload(asset('/build/merger.js', 'endroid_data_sanitize')) }}"></script>
+    <script src="{{ preload(asset('/build/app.js', 'endroid_data_sanitize')) }}"></script>
 {% endblock %}

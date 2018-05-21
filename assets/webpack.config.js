@@ -6,7 +6,7 @@ Encore
     .setManifestKeyPrefix('/build')
     .cleanupOutputBeforeBuild()
     .createSharedEntry('base', './js/base.js')
-    .addEntry('merger', './js/merger.js')
+    .addEntry('app', './js/app.js')
     .autoProvidejQuery()
     .enableVueLoader()
     .enableSourceMaps(!Encore.isProduction())
