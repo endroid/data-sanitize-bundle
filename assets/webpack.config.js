@@ -10,7 +10,7 @@ Encore
     .autoProvidejQuery()
     .enableVueLoader()
     .enableSourceMaps(!Encore.isProduction())
-    .enableVersioning(Encore.isProduction())
+    .enableVersioning()
 ;
 
 module.exports = Encore.getWebpackConfig();

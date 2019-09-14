@@ -26,13 +26,13 @@ final class ListController
         $this->templating = $templating;
     }
 
-    public function __invoke(string $entityName): Response
+    public function __invoke(string $name): Response
     {
         // Disable profiler because it conflicts with Vue
         if ($this->kernel->getContainer()->has('profiler')) {
             $this->kernel->getContainer()->get('profiler')->disable();
         }
 
-        return new Response($this->templating->render('@EndroidDataSanitize/list.html.twig', ['entityName' => $entityName]));
+        return new Response($this->templating->render('@EndroidDataSanitize/list.html.twig', ['name' => $name]));
     }
 }

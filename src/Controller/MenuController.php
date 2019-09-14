@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Endroid\DataSanitizeBundle\Controller;
 
-use Endroid\DataSanitize\Sanitizer;
+use Endroid\DataSanitizeBundle\Configuration;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
@@ -20,23 +20,22 @@ final class MenuController
 {
     private $templating;
     private $router;
-    private $sanitizer;
+    private $configuration;
 
-    public function __construct(Environment $templating, RouterInterface $router, Sanitizer $sanitizer)
+    public function __construct(Environment $templating, RouterInterface $router, Configuration $configuration)
     {
         $this->templating = $templating;
         $this->router = $router;
-        $this->sanitizer = $sanitizer;
+        $this->configuration = $configuration;
     }
 
     public function __invoke()
     {
         $menu = [];
-        $config = $this->sanitizer->getConfiguration();
-        foreach ($config as $entityName => $entityConfig) {
+        foreach ($this->configuration->getNames() as $name) {
             $menu[] = [
-                'label' => ucfirst(str_replace('_', ' ', $entityName)),
-                'url' => $this->router->generate('data_sanitize_list', ['entityName' => $entityName]),
+                'label' => ucfirst(str_replace('_', ' ', $name)),
+                'url' => $this->router->generate('data_sanitize_list', ['name' => $name]),
             ];
         }
 

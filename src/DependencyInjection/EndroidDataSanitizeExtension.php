@@ -31,8 +31,8 @@ final class EndroidDataSanitizeExtension extends Extension implements PrependExt
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
-        $sanitizerDefinition = $container->getDefinition('Endroid\\DataSanitize\\Sanitizer');
-        $sanitizerDefinition->setArgument(0, $config['entities']);
+        $sanitizerDefinition = $container->getDefinition('Endroid\\DataSanitizeBundle\\Configuration');
+        $sanitizerDefinition->setArgument(0, $config);
     }
 
     /**

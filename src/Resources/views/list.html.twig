@@ -6,16 +6,16 @@
 {% endblock %}
 
 {% block menu %}
-    {{ render(controller('Endroid\\DataSanitizeBundle\\Controller\\MenuController')) }}
+{#    {{ render(controller('Endroid\\DataSanitizeBundle\\Controller\\MenuController')) }}#}
 {% endblock %}
 
 {% block content %}
-    <h1>Merge {{ entityName }} entities</h1>
-    {% if entityName %}
+    <h1>Merge {{ name }} entities</h1>
+    {% if name %}
         <div id="app">
             <merger
-                    state-url="{{ path('data_sanitize_state', { entityName: entityName }) }}"
-                    merge-url="{{ path('data_sanitize_merge', { entityName: entityName }) }}"
+                    state-url="{{ path('data_sanitize_state', { name: name }) }}"
+                    merge-url="{{ path('data_sanitize_merge', { name: name }) }}"
             ></merger>
         </div>
     {% else %}

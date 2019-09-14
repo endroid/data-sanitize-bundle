@@ -11,23 +11,26 @@ declare(strict_types=1);
 
 namespace Endroid\DataSanitizeBundle\Controller;
 
-use Endroid\DataSanitize\Sanitizer;
+use Endroid\DataSanitize\SanitizerFactory;
+use Endroid\DataSanitizeBundle\Configuration;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 final class MergeController
 {
-    private $sanitizer;
+    private $configuration;
+    private $sanitizerFactory;
 
-    public function __construct(Sanitizer $sanitizer)
+    public function __construct(Configuration $configuration, SanitizerFactory $sanitizerFactory)
     {
-        $this->sanitizer = $sanitizer;
+        $this->configuration = $configuration;
+        $this->sanitizerFactory = $sanitizerFactory;
     }
 
-    public function __invoke(Request $request, string $entityName): Response
+    public function __invoke(Request $request, string $name): Response
     {
-        $sources = $request->request->get('sources');
+        $sources = $request->query->get('sources');
         if (0 == count($sources)) {
             return new JsonResponse([
                 'success' => false,
@@ -35,7 +38,7 @@ final class MergeController
             ]);
         }
 
-        $target = $request->request->get('target');
+        $target = $request->query->get('target');
         if (is_null($target)) {
             return new JsonResponse([
                 'success' => false,
@@ -43,7 +46,8 @@ final class MergeController
             ]);
         }
 
-        $this->sanitizer->sanitize($entityName, $sources, $target);
+        $sanitizer = $this->sanitizerFactory->create($this->configuration->getClass($name));
+        $sanitizer->merge($sources, $target);
 
         return new JsonResponse([
             'success' => true,

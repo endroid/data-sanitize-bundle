@@ -11,40 +11,29 @@ declare(strict_types=1);
 
 namespace Endroid\DataSanitizeBundle\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Endroid\DataSanitize\Sanitizer;
+use Endroid\DataSanitize\SanitizerFactory;
+use Endroid\DataSanitizeBundle\Configuration;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class StateController
 {
-    private $entityManager;
-    private $sanitizer;
+    private $configuration;
+    private $sanitizerFactory;
 
-    public function __construct(EntityManagerInterface $entityManager, Sanitizer $sanitizer)
+    public function __construct(Configuration $configuration, SanitizerFactory $sanitizerFactory)
     {
-        $this->entityManager = $entityManager;
-        $this->sanitizer = $sanitizer;
+        $this->configuration = $configuration;
+        $this->sanitizerFactory = $sanitizerFactory;
     }
 
-    public function __invoke(string $entityName): Response
+    public function __invoke(string $name): Response
     {
-        $entities = $this->entityManager->getRepository($this->sanitizer->getClass($entityName))->findBy([], ['id' => 'ASC']);
-        $fields = $this->sanitizer->getFields($entityName);
+        $sanitizer = $this->sanitizerFactory->create($this->configuration->getClass($name));
 
-        foreach ($entities as &$entity) {
-            $data = ['id' => $entity->getId()];
-            foreach ($fields as $field) {
-                $data[$field] = (string) $entity->{'get'.ucfirst($field)}();
-            }
-            $entity = $data;
-        }
-
-        $state = [
-            'entities' => $entities,
-            'fields' => $fields,
-        ];
-
-        return new JsonResponse($state);
+        return new JsonResponse([
+            'fields' => array_map([$sanitizer, 'getAlias'], $this->configuration->getFields($name)),
+            'entities' => $sanitizer->getData($this->configuration->getFields($name)),
+        ]);
     }
 }

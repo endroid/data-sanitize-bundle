@@ -8,4 +8,6 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
-    Endroid\DataSanitize\Sanitizer: ~
+    Endroid\DataSanitize\RelationFinder: ~
+    Endroid\DataSanitize\SanitizerFactory: ~
+    Endroid\DataSanitizeBundle\Configuration: ~

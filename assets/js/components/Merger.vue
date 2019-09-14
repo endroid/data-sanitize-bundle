@@ -72,7 +72,7 @@
                 })
             },
             toggle: function(entity) {
-                if (!('status' in entity || entity['status'] === 'none')) {
+                if (!('status' in entity) || entity['status'] === 'none') {
                     entity['status'] = 'source';
                 } else if (entity['status'] === 'source') {
                     entity['status'] = 'target';
@@ -81,19 +81,18 @@
                 }
             },
             merge: function() {
-                console.log(this.entities);
-            },
-            // sendTest: function () {
-            //     axios.get('/cm-sms/message/send/' + this.phoneNumber).then((response) => {
-            //         this.successMessage = 'Message sent to ' + this.phoneNumber;
-            //         this.showSuccessAlert = true;
-            //         this.loadState();
-            //     }, (error) => {
-            //         this.dangerMessage = 'Message could not be sent';
-            //         this.showDangerAlert = true;
-            //         this.loadState();
-            //     })
-            // }
+            	let sources = this.entities.filter(entity => entity.status === 'source').map(entity => entity['id']);
+				let target = this.entities.filter(entity => entity.status === 'target').map(entity => entity['id']);
+                axios.get(this.mergeUrl, { params: { sources: sources, target: target[0] }}).then((response) => {
+                	this.successMessage = 'Merge successful';
+                	this.showSuccessAlert = true;
+                	this.loadState();
+                }, (error) => {
+                	this.dangerMessage = 'Merge failed';
+                	this.showDangerAlert = true;
+                	this.loadState();
+                });
+            }
         },
         mounted: function () {
             this.$nextTick(function () {
