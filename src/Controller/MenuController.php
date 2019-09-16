@@ -29,7 +29,7 @@ final class MenuController
         $this->configuration = $configuration;
     }
 
-    public function __invoke()
+    public function __invoke(): Response
     {
         $menu = [];
         foreach ($this->configuration->getNames() as $name) {

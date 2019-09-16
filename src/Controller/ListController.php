@@ -12,27 +12,19 @@ declare(strict_types=1);
 namespace Endroid\DataSanitizeBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Twig\Environment;
 
 final class ListController
 {
-    private $kernel;
     private $templating;
 
-    public function __construct(KernelInterface $kernel, Environment $templating)
+    public function __construct(Environment $templating)
     {
-        $this->kernel = $kernel;
         $this->templating = $templating;
     }
 
     public function __invoke(string $name): Response
     {
-        // Disable profiler because it conflicts with Vue
-        if ($this->kernel->getContainer()->has('profiler')) {
-            $this->kernel->getContainer()->get('profiler')->disable();
-        }
-
         return new Response($this->templating->render('@EndroidDataSanitize/list.html.twig', ['name' => $name]));
     }
 }

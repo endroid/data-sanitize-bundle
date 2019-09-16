@@ -18,17 +18,15 @@ final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('endroid_data_sanitize');
 
         $treeBuilder
-            ->root('endroid_data_sanitize')
+            ->getRootNode()
                 ->children()
-                    ->arrayNode('entities')
-                        ->prototype('array')
-                            ->children()
-                                ->scalarNode('class')->isRequired()->end()
-                                ->arrayNode('fields')
-                                    ->prototype('scalar')
+                    ->arrayNode('entities')->prototype('array')
+                    ->children()
+                        ->scalarNode('class')->isRequired()->end()
+                        ->arrayNode('fields')->prototype('scalar')
         ;
 
         return $treeBuilder;

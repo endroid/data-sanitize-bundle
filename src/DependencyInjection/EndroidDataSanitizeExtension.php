@@ -20,10 +20,7 @@ use Symfony\Component\Config\FileLocator;
 
 final class EndroidDataSanitizeExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $configs);
@@ -35,10 +32,7 @@ final class EndroidDataSanitizeExtension extends Extension implements PrependExt
         $sanitizerDefinition->setArgument(0, $config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         // Add the package to the assets configuration so the correct manifest is used
         $container->prependExtensionConfig('framework', [
