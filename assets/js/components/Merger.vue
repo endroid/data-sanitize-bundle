@@ -30,7 +30,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="entity in entities" v-bind:class="{'table-warning':(status === 'source')}">
+                            <tr v-for="entity in entities" v-bind:class="[
+                            	{'table-danger':(entity['status'] === 'source')},
+                            	{'table-success':(entity['status'] === 'target')}]">
                                 <td v-for="field in fields" v-on:click="toggle(entity)">{{ entity[field] }}</td>
                             </tr>
                         </tbody>
@@ -64,26 +66,36 @@
         methods: {
             loadState: function () {
                 axios.get(this.stateUrl).then((response) => {
-                    this.entities = response.data.entities;
-                    this.fields = response.data.fields;
+                    this.entities = [];
+                    for (let index = 0; index < response.data.entities.length; index++) {
+						let entity = response.data.entities[index];
+						entity['status'] = 'none';
+						this.entities.push(entity);
+					}
+					this.fields = response.data.fields;
                 }, (error) => {
                     this.dangerMessage = 'Entities could not be loaded';
                     this.showDangerAlert = true;
                 })
             },
             toggle: function(entity) {
-                if (!('status' in entity) || entity['status'] === 'none') {
-                    entity['status'] = 'source';
-                } else if (entity['status'] === 'source') {
-                    entity['status'] = 'target';
-                } else if (entity['status'] === 'target') {
-                    entity['status'] = 'none';
+                switch (entity['status']) {
+                	case 'none':
+                		entity['status'] = 'source';
+                		break;
+                    case 'source':
+                    	entity['status'] = 'target';
+                    	break;
+                    case 'target':
+                    	entity['status'] = 'none';
+                    	break;
                 }
             },
             merge: function() {
             	let sources = this.entities.filter(entity => entity.status === 'source').map(entity => entity['id']);
 				let target = this.entities.filter(entity => entity.status === 'target').map(entity => entity['id']);
-                axios.get(this.mergeUrl, { params: { sources: sources, target: target[0] }}).then((response) => {
+
+				axios.get(this.mergeUrl, { params: { sources: sources, target: target[0] }}).then((response) => {
                 	this.successMessage = 'Merge successful';
                 	this.showSuccessAlert = true;
                 	this.loadState();
