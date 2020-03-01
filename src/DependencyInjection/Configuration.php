@@ -16,9 +16,18 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+    /** @psalm-suppress PossiblyUndefinedMethod */
     public function getConfigTreeBuilder(): TreeBuilder
     {
+        /** @psalm-suppress TooManyArguments */
         $treeBuilder = new TreeBuilder('endroid_data_sanitize');
+
+        if (method_exists($treeBuilder, 'root')) {
+            $rootNode = $treeBuilder->root('endroid_data_sanitize');
+        } else {
+            /** @psalm-suppress UndefinedMethod */
+            $rootNode = $treeBuilder->getRootNode();
+        }
 
         $treeBuilder
             ->getRootNode()
