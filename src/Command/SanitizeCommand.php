@@ -6,7 +6,8 @@ namespace Endroid\DataSanitizeBundle\Command;
 
 use Endroid\DataSanitize\SanitizerFactory;
 use Endroid\DataSanitizeBundle\Configuration;
-use Endroid\SimpleExcel\SimpleExcel;
+use Endroid\SimpleSpreadsheet\Adapter\ArrayAdapter;
+use Endroid\SimpleSpreadsheet\SimpleSpreadsheet;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,10 +48,10 @@ class SanitizeCommand extends Command
         $class = $this->configuration->getClass(strval($name));
         $sanitizer = $this->sanitizerFactory->create($class);
 
-        $excel = new SimpleExcel();
-        $excel->loadFromFile(strval($filename));
+        $spreadsheet = new SimpleSpreadsheet();
+        $spreadsheet->load(strval($filename));
 
-        $data = $excel->saveToArray();
+        $data = $spreadsheet->save(ArrayAdapter::class);
 
         $merges = [];
         foreach ($data as $sheet) {
