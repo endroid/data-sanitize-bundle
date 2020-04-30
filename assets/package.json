@@ -4,7 +4,7 @@
   "main": "webpack.config.js",
   "devDependencies": {
     "@symfony/webpack-encore": "^0.19.0",
-    "axios": "^0.17.1",
+    "axios": "^0.18.1",
     "bootstrap": "^4.0.0",
     "bootstrap-vue": "^2.0.0-rc.2",
     "font-awesome": "^4.7.0",
