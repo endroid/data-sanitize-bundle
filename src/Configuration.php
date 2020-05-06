@@ -42,6 +42,18 @@ class Configuration
 
     public function getFields(string $name): array
     {
-        return $this->configuration['entities'][$name]['fields'];
+        $reference = $this->getReference($name);
+        $fields = $this->configuration['entities'][$name]['fields'];
+
+        if (!in_array($reference, $fields)) {
+            array_unshift($fields, $this->getReference($name));
+        }
+
+        return $fields;
+    }
+
+    public function getReference(string $name): string
+    {
+        return $this->configuration['entities'][$name]['reference'];
     }
 }

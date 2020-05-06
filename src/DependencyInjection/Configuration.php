@@ -29,13 +29,14 @@ final class Configuration implements ConfigurationInterface
             $rootNode = $treeBuilder->getRootNode();
         }
 
-        $treeBuilder
-            ->getRootNode()
-                ->children()
-                    ->arrayNode('entities')->prototype('array')
+        $rootNode
+            ->children()
+                ->arrayNode('entities')
+                    ->prototype('array')
                     ->children()
                         ->scalarNode('class')->isRequired()->end()
-                        ->arrayNode('fields')->prototype('scalar')
+                        ->arrayNode('fields')->prototype('scalar')->end()->end()
+                        ->scalarNode('reference')->isRequired()->defaultValue('id')
         ;
 
         return $treeBuilder;
