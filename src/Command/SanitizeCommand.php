@@ -63,11 +63,7 @@ class SanitizeCommand extends Command
         }
 
         foreach ($merges as $target => $sources) {
-            if ('' === $target) {
-                $sanitizer->delete($sources);
-            } else {
-                $sanitizer->merge($sources, strval($target));
-            }
+            $sanitizer->merge($sources, strval($target));
         }
 
         return 0;

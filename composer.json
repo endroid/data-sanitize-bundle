@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=7.2",
-        "endroid/data-sanitize": "^1.4.3",
+        "endroid/data-sanitize": "^1.4.5",
         "endroid/installer": "^1.2.2",
         "endroid/simple-spreadsheet": "^3.0",
         "symfony/config": "^4.4||^5.0",
