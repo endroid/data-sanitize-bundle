@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SanitizeCommand extends Command
 {
+    /** @var string */
     protected static $defaultName = 'endroid:data-sanitize:sanitize';
 
     /** @var Configuration */
