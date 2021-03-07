@@ -17,21 +17,23 @@ class SanitizeCommand extends Command
 {
     protected static $defaultName = 'endroid:data-sanitize:sanitize';
 
+    /** @var Configuration */
     private $configuration;
+
+    /** @var SanitizerFactory */
     private $sanitizerFactory;
 
     public function __construct(
-        $name = null,
         Configuration $configuration,
         SanitizerFactory $sanitizerFactory
     ) {
-        parent::__construct($name);
+        parent::__construct();
 
         $this->configuration = $configuration;
         $this->sanitizerFactory = $sanitizerFactory;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Sanitize data')
@@ -40,16 +42,20 @@ class SanitizeCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
         $filename = $input->getArgument('source');
 
-        $class = $this->configuration->getClass(strval($name));
+        if (!is_string($name) || !is_string($filename)) {
+            throw new \Exception('Invalid name or source parameter passed');
+        }
+
+        $class = $this->configuration->getClass($name);
         $sanitizer = $this->sanitizerFactory->create($class);
 
         $spreadsheet = new SimpleSpreadsheet();
-        $spreadsheet->load(strval($filename));
+        $spreadsheet->load($filename);
 
         $data = $spreadsheet->save(ArrayAdapter::class);
 

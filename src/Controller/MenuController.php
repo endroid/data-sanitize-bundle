@@ -18,8 +18,13 @@ use Twig\Environment;
 
 final class MenuController
 {
+    /** @var Environment */
     private $templating;
+
+    /** @var RouterInterface */
     private $router;
+
+    /** @var Configuration */
     private $configuration;
 
     public function __construct(Environment $templating, RouterInterface $router, Configuration $configuration)

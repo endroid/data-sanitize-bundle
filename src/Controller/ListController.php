@@ -16,6 +16,7 @@ use Twig\Environment;
 
 final class ListController
 {
+    /** @var Environment */
     private $templating;
 
     public function __construct(Environment $templating)

@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 final class EndroidDataSanitizeExtension extends Extension implements PrependExtensionInterface
 {
+    /** @param array<mixed> $configs */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
@@ -28,7 +29,7 @@ final class EndroidDataSanitizeExtension extends Extension implements PrependExt
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
 
-        $sanitizerDefinition = $container->getDefinition('Endroid\\DataSanitizeBundle\\Configuration');
+        $sanitizerDefinition = $container->getDefinition(\Endroid\DataSanitizeBundle\Configuration::class);
         $sanitizerDefinition->setArgument(0, $config);
     }
 
