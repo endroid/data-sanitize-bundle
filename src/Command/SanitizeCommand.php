@@ -8,36 +8,25 @@ use Endroid\DataSanitize\SanitizerFactory;
 use Endroid\DataSanitizeBundle\Configuration;
 use Endroid\SimpleSpreadsheet\Adapter\ArrayAdapter;
 use Endroid\SimpleSpreadsheet\SimpleSpreadsheet;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SanitizeCommand extends Command
+#[AsCommand(name: 'endroid:data-sanitize:sanitize', description: 'Sanitize data')]
+final class SanitizeCommand extends Command
 {
-    /** @var string */
-    protected static $defaultName = 'endroid:data-sanitize:sanitize';
-
-    /** @var Configuration */
-    private $configuration;
-
-    /** @var SanitizerFactory */
-    private $sanitizerFactory;
-
     public function __construct(
-        Configuration $configuration,
-        SanitizerFactory $sanitizerFactory
+        private Configuration $configuration,
+        private SanitizerFactory $sanitizerFactory
     ) {
         parent::__construct();
-
-        $this->configuration = $configuration;
-        $this->sanitizerFactory = $sanitizerFactory;
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Sanitize data')
             ->addArgument('name', InputArgument::REQUIRED)
             ->addArgument('source', InputArgument::REQUIRED)
         ;
@@ -73,6 +62,6 @@ class SanitizeCommand extends Command
             $sanitizer->merge($sources, strval($target));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

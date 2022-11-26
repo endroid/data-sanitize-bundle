@@ -2,24 +2,14 @@
 
 declare(strict_types=1);
 
-/*
- * (c) Jeroen van den Enden <info@endroid.nl>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Endroid\DataSanitizeBundle;
 
 class Configuration
 {
-    /** @var array<string, array<mixed>> */
-    private $configuration;
-
-    /** @param array<string, array<mixed>> $configuration */
-    public function __construct(array $configuration)
-    {
-        $this->configuration = $configuration;
+    public function __construct(
+        /** @var array<string, array<mixed>> */
+        private array $configuration
+    ) {
     }
 
     /** @return array<string> */
