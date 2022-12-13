@@ -21,8 +21,8 @@ final class MergeController
     public function __invoke(Request $request, string $name): Response
     {
         /** @var array<string> $sourceIds */
-        $sourceIds = (array) $request->query->get('sources');
-        if (0 == count($sourceIds)) {
+        $sourceIds = $request->query->all('sources');
+        if (0 === count($sourceIds)) {
             return new JsonResponse([
                 'success' => false,
                 'error' => 'Invalid sources',
