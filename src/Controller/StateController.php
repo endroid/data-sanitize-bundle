@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 final class StateController
 {
     public function __construct(
-        private Configuration $configuration,
-        private SanitizerFactory $sanitizerFactory
+        private readonly Configuration $configuration,
+        private readonly SanitizerFactory $sanitizerFactory
     ) {
     }
 

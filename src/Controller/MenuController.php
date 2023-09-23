@@ -12,9 +12,9 @@ use Twig\Environment;
 final class MenuController
 {
     public function __construct(
-        private Environment $templating,
-        private RouterInterface $router,
-        private Configuration $configuration
+        private readonly Environment $templating,
+        private readonly RouterInterface $router,
+        private readonly Configuration $configuration
     ) {
     }
 

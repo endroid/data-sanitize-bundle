@@ -10,7 +10,7 @@ use Twig\Environment;
 final class ListController
 {
     public function __construct(
-        private Environment $templating
+        private readonly Environment $templating
     ) {
     }
 

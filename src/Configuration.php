@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Endroid\DataSanitizeBundle;
 
-class Configuration
+final class Configuration
 {
     public function __construct(
         /** @var array<string, array<mixed>> */
-        private array $configuration
+        private readonly array $configuration
     ) {
     }
 

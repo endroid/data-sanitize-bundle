@@ -18,8 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class SanitizeCommand extends Command
 {
     public function __construct(
-        private Configuration $configuration,
-        private SanitizerFactory $sanitizerFactory
+        private readonly Configuration $configuration,
+        private readonly SanitizerFactory $sanitizerFactory
     ) {
         parent::__construct();
     }
