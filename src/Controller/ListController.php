@@ -7,10 +7,10 @@ namespace Endroid\DataSanitizeBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class ListController
+final readonly class ListController
 {
     public function __construct(
-        private readonly Environment $templating
+        private Environment $templating,
     ) {
     }
 

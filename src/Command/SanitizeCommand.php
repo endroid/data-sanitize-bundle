@@ -19,7 +19,7 @@ final class SanitizeCommand extends Command
 {
     public function __construct(
         private readonly Configuration $configuration,
-        private readonly SanitizerFactory $sanitizerFactory
+        private readonly SanitizerFactory $sanitizerFactory,
     ) {
         parent::__construct();
     }

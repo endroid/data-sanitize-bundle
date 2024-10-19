@@ -9,11 +9,11 @@ use Endroid\DataSanitizeBundle\Configuration;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class StateController
+final readonly class StateController
 {
     public function __construct(
-        private readonly Configuration $configuration,
-        private readonly SanitizerFactory $sanitizerFactory
+        private Configuration $configuration,
+        private SanitizerFactory $sanitizerFactory,
     ) {
     }
 

@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
-final class MenuController
+final readonly class MenuController
 {
     public function __construct(
-        private readonly Environment $templating,
-        private readonly RouterInterface $router,
-        private readonly Configuration $configuration
+        private Environment $templating,
+        private RouterInterface $router,
+        private Configuration $configuration,
     ) {
     }
 

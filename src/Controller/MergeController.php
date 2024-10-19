@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class MergeController
+final readonly class MergeController
 {
     public function __construct(
-        private readonly Configuration $configuration,
-        private readonly SanitizerFactory $sanitizerFactory
+        private Configuration $configuration,
+        private SanitizerFactory $sanitizerFactory,
     ) {
     }
 
