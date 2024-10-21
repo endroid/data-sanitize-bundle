@@ -29,6 +29,7 @@ final readonly class Configuration
         return $classes;
     }
 
+    /** @return class-string */
     public function getClass(string $name): string
     {
         return $this->configuration['entities'][$name]['class'];
