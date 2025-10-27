@@ -18,10 +18,14 @@ final readonly class Configuration implements ConfigurationInterface
                 ->children()
                     ->arrayNode('entities')
                         ->prototype('array')
-                        ->children()
-                            ->scalarNode('class')->isRequired()->end()
-                            ->arrayNode('fields')->prototype('scalar')->end()->end()
-                            ->scalarNode('reference')->isRequired()->defaultValue('id')
+                            ->children()
+                                ->scalarNode('class')->isRequired()->end()
+                                ->arrayNode('fields')->prototype('scalar')->end()->end()
+                                ->scalarNode('reference')->defaultValue('id')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
         ;
 
         return $treeBuilder;

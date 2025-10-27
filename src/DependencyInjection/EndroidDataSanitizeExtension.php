@@ -24,6 +24,29 @@ final class EndroidDataSanitizeExtension extends Extension implements PrependExt
 
         $sanitizerDefinition = $container->getDefinition(\Endroid\DataSanitizeBundle\Configuration::class);
         $sanitizerDefinition->setArgument(0, $config);
+
+        // Only register Doctrine-dependent services if Doctrine ORM is available
+        if (interface_exists(\Doctrine\ORM\EntityManagerInterface::class)) {
+            $this->registerDoctrineServices($container);
+        }
+    }
+
+    private function registerDoctrineServices(ContainerBuilder $container): void
+    {
+        // Register RelationFinder
+        $container->register(\Endroid\DataSanitize\RelationFinder::class)
+            ->setAutowired(true)
+            ->setAutoconfigured(true);
+
+        // Register SanitizerFactory
+        $container->register(\Endroid\DataSanitize\SanitizerFactory::class)
+            ->setAutowired(true)
+            ->setAutoconfigured(true);
+
+        // Register SanitizeCommand
+        $container->register(\Endroid\DataSanitizeBundle\Command\SanitizeCommand::class)
+            ->setAutowired(true)
+            ->addTag('console.command', ['command' => 'endroid:data-sanitize:sanitize']);
     }
 
     public function prepend(ContainerBuilder $container): void
