@@ -14,8 +14,7 @@ final readonly class StateController
     public function __construct(
         private Configuration $configuration,
         private SanitizerFactory $sanitizerFactory,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $name): Response
     {

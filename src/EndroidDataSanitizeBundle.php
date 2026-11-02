@@ -6,6 +6,4 @@ namespace Endroid\DataSanitizeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class EndroidDataSanitizeBundle extends Bundle
-{
-}
+final class EndroidDataSanitizeBundle extends Bundle {}

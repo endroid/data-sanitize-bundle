@@ -7,19 +7,20 @@ namespace Endroid\DataSanitizeBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 final class EndroidDataSanitizeExtension extends Extension implements PrependExtensionInterface
 {
     /** @param array<mixed> $configs */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
 
         $sanitizerDefinition = $container->getDefinition(\Endroid\DataSanitizeBundle\Configuration::class);
@@ -34,21 +35,25 @@ final class EndroidDataSanitizeExtension extends Extension implements PrependExt
     private function registerDoctrineServices(ContainerBuilder $container): void
     {
         // Register RelationFinder
-        $container->register(\Endroid\DataSanitize\RelationFinder::class)
+        $container
+            ->register(\Endroid\DataSanitize\RelationFinder::class)
             ->setAutowired(true)
             ->setAutoconfigured(true);
 
         // Register SanitizerFactory
-        $container->register(\Endroid\DataSanitize\SanitizerFactory::class)
+        $container
+            ->register(\Endroid\DataSanitize\SanitizerFactory::class)
             ->setAutowired(true)
             ->setAutoconfigured(true);
 
         // Register SanitizeCommand
-        $container->register(\Endroid\DataSanitizeBundle\Command\SanitizeCommand::class)
+        $container
+            ->register(\Endroid\DataSanitizeBundle\Command\SanitizeCommand::class)
             ->setAutowired(true)
             ->addTag('console.command', ['command' => 'endroid:data-sanitize:sanitize']);
     }
 
+    #[\Override]
     public function prepend(ContainerBuilder $container): void
     {
         // Add the package to the assets configuration so the correct manifest is used
