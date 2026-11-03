@@ -15,15 +15,14 @@ final readonly class MenuController
         private Environment $templating,
         private RouterInterface $router,
         private Configuration $configuration,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): Response
     {
         $menu = [];
         foreach ($this->configuration->getNames() as $name) {
             $menu[] = [
-                'label' => ucfirst(str_replace('_', ' ', $name)),
+                'label' => ucfirst(str_replace('_', replace: ' ', subject: $name)),
                 'url' => $this->router->generate('data_sanitize_list', ['name' => $name]),
             ];
         }

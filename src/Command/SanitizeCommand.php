@@ -24,22 +24,17 @@ final class SanitizeCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
-        $this
-            ->addArgument('name', InputArgument::REQUIRED)
-            ->addArgument('source', InputArgument::REQUIRED)
-        ;
+        $this->addArgument('name', InputArgument::REQUIRED)->addArgument('source', InputArgument::REQUIRED);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $name = $input->getArgument('name');
-        $filename = $input->getArgument('source');
-
-        if (!is_string($name) || !is_string($filename)) {
-            throw new \Exception('Invalid name or source parameter passed');
-        }
+        $name = $this->requireStringArgument($input->getArgument('name'));
+        $filename = $this->requireStringArgument($input->getArgument('source'));
 
         $class = $this->configuration->getClass($name);
         $sanitizer = $this->sanitizerFactory->create($class);
@@ -47,14 +42,33 @@ final class SanitizeCommand extends Command
         $spreadsheet = new SimpleSpreadsheet();
         $spreadsheet->load($filename);
 
+        /** @var array<array<mixed>> $data ArrayAdapter returns the loaded sheets without transforming their rows. */
         $data = $spreadsheet->save(ArrayAdapter::class);
 
         $merges = [];
         foreach ($data as $sheet) {
-            foreach ($sheet as $row) {
-                if ($row['target_id'] !== $row['id']) {
-                    $merges[$row['target_id']][] = $row['id'];
+            foreach (array_keys($sheet) as $key) {
+                if (!is_array($sheet[$key] ?? null)) {
+                    throw new \InvalidArgumentException('Every spreadsheet row must contain id and target_id columns.');
                 }
+
+                $row = $sheet[$key];
+                if (
+                    !is_string($row['id'] ?? null) && !is_int($row['id'] ?? null)
+                    || !is_string($row['target_id'] ?? null) && !is_int($row['target_id'] ?? null)
+                ) {
+                    throw new \InvalidArgumentException(
+                        'The id and target_id columns must contain strings or integers.',
+                    );
+                }
+
+                $id = (string) $row['id'];
+                $targetId = (string) $row['target_id'];
+                if ($targetId === $id) {
+                    continue;
+                }
+
+                $merges[$targetId][] = $id;
             }
         }
 
@@ -63,5 +77,14 @@ final class SanitizeCommand extends Command
         }
 
         return Command::SUCCESS;
+    }
+
+    private function requireStringArgument(mixed $value): string
+    {
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException('Invalid name or source parameter passed');
+        }
+
+        return $value;
     }
 }

@@ -15,8 +15,7 @@ final readonly class MergeController
     public function __construct(
         private Configuration $configuration,
         private SanitizerFactory $sanitizerFactory,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, string $name): Response
     {

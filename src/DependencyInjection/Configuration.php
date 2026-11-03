@@ -9,24 +9,44 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final readonly class Configuration implements ConfigurationInterface
 {
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('endroid_data_sanitize');
+        /** @var TreeBuilder<'array'> $treeBuilder */
+        $treeBuilder = new TreeBuilder('endroid_data_sanitize', type: 'array');
 
-        $treeBuilder /* @phpstan-ignore-line */
+        $treeBuilder
             ->getRootNode()
-                ->children()
-                    ->arrayNode('entities')
-                        ->prototype('array')
-                            ->children()
-                                ->scalarNode('class')->isRequired()->end()
-                                ->arrayNode('fields')->prototype('scalar')->end()->end()
-                                ->scalarNode('reference')->defaultValue('id')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-        ;
+            ->children()
+            ->arrayNode('entities')
+            ->arrayPrototype()
+            ->children()
+            ->scalarNode('class')
+            ->isRequired()
+            ->validate()
+            ->ifTrue(static fn(mixed $class): bool => !is_string($class) || !class_exists($class))
+            ->thenInvalid('The configured entity class "%s" does not exist.')
+            ->end()
+            ->end()
+            ->arrayNode('fields')
+            ->scalarPrototype()
+            ->validate()
+            ->ifTrue(static fn(mixed $field): bool => !is_string($field))
+            ->thenInvalid('Field names must be strings.')
+            ->end()
+            ->end()
+            ->end()
+            ->scalarNode('reference')
+            ->defaultValue('id')
+            ->validate()
+            ->ifTrue(static fn(mixed $reference): bool => !is_string($reference))
+            ->thenInvalid('The reference must be a string.')
+            ->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end();
 
         return $treeBuilder;
     }

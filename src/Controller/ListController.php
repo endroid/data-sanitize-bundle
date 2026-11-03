@@ -11,8 +11,7 @@ final readonly class ListController
 {
     public function __construct(
         private Environment $templating,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $name): Response
     {
